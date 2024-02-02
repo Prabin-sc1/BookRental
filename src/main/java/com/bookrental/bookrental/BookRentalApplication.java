@@ -31,6 +31,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                 @Server(
                         url = "https://demobookrental-production.up.railway.app/",
                         description = "Book Rental Railway"
+                ),
+                @Server(
+                        url = "https://bookrental-production.up.railway.app/",
+                        description = "Book Rental Railway"
                 )
         }
         , security = @SecurityRequirement(name = "bearerAuth")
