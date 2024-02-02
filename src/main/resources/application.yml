@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${ENV:prod}
+    active: ${ENV:dev}
   servlet:
     multipart:
       max-file-size: 3MB
