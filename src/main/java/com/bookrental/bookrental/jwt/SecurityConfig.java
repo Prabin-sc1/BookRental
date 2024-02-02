@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/member/**", "/author/**", "/book/**", "/booktransaction/**", "/category/**", "/excel/**").hasRole("LIBRARIAN")
-                                .requestMatchers("/user/**").hasRole("ADMIN")
+                                .requestMatchers("/user/**").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/image/**").permitAll()
                                 .requestMatchers(PUBLIC_URLS).permitAll()
