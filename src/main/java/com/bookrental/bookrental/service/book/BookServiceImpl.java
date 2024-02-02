@@ -51,8 +51,10 @@ public class BookServiceImpl implements BookService {
 
     private final ImageService imageService;
 
+/*
     @Value("${project.images}")
     private String path;
+*/
 
     @Override
     public void createUpdateBook(BookRequestPojo book) {
@@ -135,7 +137,7 @@ public class BookServiceImpl implements BookService {
     }
 
     //start
-    public String upload(MultipartFile file) throws IOException {
+    /*public String upload(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename(); // abc.png
         String randomID = UUID.randomUUID().toString();
         String newFileName = randomID.concat(originalFilename.substring(originalFilename.lastIndexOf(".")));
@@ -148,6 +150,6 @@ public class BookServiceImpl implements BookService {
         }
         Files.copy(file.getInputStream(), Paths.get(filePath));
         return newFileName;
-    }
+    }*/
     //end
 }
