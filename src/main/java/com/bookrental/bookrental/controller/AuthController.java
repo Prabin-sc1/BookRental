@@ -6,7 +6,6 @@ import com.bookrental.bookrental.enums.Message;
 import com.bookrental.bookrental.exception.AppException;
 import com.bookrental.bookrental.generic.GlobalApiResponse;
 import com.bookrental.bookrental.jwt.JwtHelper;
-import com.bookrental.bookrental.pojo.author.AuthorRequestPojo;
 import com.bookrental.bookrental.pojo.jwt.JwtRequestPojo;
 import com.bookrental.bookrental.pojo.jwt.JwtResponsePojo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = ModuleNameConstants.AUTH)
+@Tag(name = ModuleNameConstants.AUTHENTICATION)
 public class AuthController extends MyBaseController {
     private final UserDetailsService userDetailsService;
 
@@ -43,7 +42,7 @@ public class AuthController extends MyBaseController {
         this.manager = manager;
         this.helper = helper;
         this.customMessageSource = customMessageSource;
-        this.module = ModuleNameConstants.AUTH;
+        this.module = ModuleNameConstants.AUTHENTICATION;
     }
 
     @PostMapping("/login")

@@ -81,13 +81,8 @@ public class AuthorController extends MyBaseController {
             )
     )
     public ResponseEntity<GlobalApiResponse> getAuthor(@PathVariable Integer id) {
-        if (authorService.getAuthorById(id) != null) {
-            return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIEVE.getCode(), module),
-                    authorService.getAuthorById(id)));
-        } else {
-            return ResponseEntity.ok(errorResponse(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), module),
-                    null));
-        }
+        return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIEVE.getCode(), module),
+                authorService.getAuthorById(id)));
     }
 
     @DeleteMapping("/{id}")

@@ -13,6 +13,7 @@ public enum Message {
     UPDATE("success.update"),
     PASSWORD_UPDATE("password.update"),
     GENERATE_OTP("generate.otp"),
+    VERIFY_OTP("verify.otp"),
     NOT_GENERATE_OTP("not.generate.otp"),
     PASSWORD_NOT_MATCH("password.not.match"),
     DELETE("success.delete"),

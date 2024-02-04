@@ -13,27 +13,19 @@ import com.bookrental.bookrental.pojo.book.BookRequestPojo;
 import com.bookrental.bookrental.pojo.book.BookResponsePojo;
 import com.bookrental.bookrental.repository.AuthorRepository;
 import com.bookrental.bookrental.repository.BookRepository;
-import com.bookrental.bookrental.service.author.AuthorService;
 import com.bookrental.bookrental.service.category.CategoryService;
 import com.bookrental.bookrental.service.image.ImageService;
 import com.bookrental.bookrental.utils.NullAwareBeanUtilsBean;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

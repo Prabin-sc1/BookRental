@@ -20,12 +20,4 @@ public class MyBaseController {
         globalApiResponse.setData(data);
         return globalApiResponse;
     }
-
-    protected GlobalApiResponse errorResponse(String message, Object data) {
-        GlobalApiResponse globalApiResponse = new GlobalApiResponse();
-        globalApiResponse.setResponseStatus(API_FAIL_STATUS);
-        globalApiResponse.setMessage(message);
-        globalApiResponse.setData(data);
-        return globalApiResponse;
-    }
 }

@@ -69,7 +69,8 @@ public class AuthorServiceImpl implements AuthorService {
 //                get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.AUTHOR)));
 //        return this.modelMapper.map(a, AuthorResponsePojo.class);
         // this is the latest one to do same thing
-        return authorMapper.getSingleAuthor(id);
+        return authorMapper.getSingleAuthor(id).orElseThrow(() -> new AppException(customMessageSource.
+                get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.AUTHOR)));
     }
 
     @Override
@@ -83,7 +84,7 @@ public class AuthorServiceImpl implements AuthorService {
                 new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.AUTHOR)));
     }
 
-    public static String SHEET_NAME = "author";
+    private static String SHEET_NAME = "author";
 
     public static String[] getHeaders(Class<?> className) {
         List<String> headers = new ArrayList<>();

@@ -29,12 +29,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                         description = "Book Rental OPEN API"
                 ),
                 @Server(
-                        url = "https://demobookrental-production.up.railway.app/",
-                        description = "Book Rental Railway"
-                ),
-                @Server(
                         url = "https://bookrental-production.up.railway.app/",
-                        description = "Book Rental Railway"
+                        description = "Book Rental API : For Frontend"
                 )
         }
         , security = @SecurityRequirement(name = "bearerAuth")

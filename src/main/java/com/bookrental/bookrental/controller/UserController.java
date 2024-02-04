@@ -6,7 +6,6 @@ import com.bookrental.bookrental.generic.GlobalApiResponse;
 import com.bookrental.bookrental.pojo.ChangePasswordRequest;
 import com.bookrental.bookrental.pojo.EmailRequest;
 import com.bookrental.bookrental.pojo.VerifyOTPRequest;
-import com.bookrental.bookrental.pojo.member.MemberResponsePojo;
 import com.bookrental.bookrental.pojo.user.UserRequestPojo;
 import com.bookrental.bookrental.pojo.user.UserResponsePojo;
 import com.bookrental.bookrental.service.otp.OTPService;
@@ -155,11 +154,11 @@ public class UserController extends MyBaseController {
                 otpService.generateAndStore(request.getEmail())));
     }
 
-    @PostMapping("/verify-otp")
+    @PostMapping("/change-password-otp")
     @PreAuthorize("permitAll()")
     public ResponseEntity<GlobalApiResponse> verifyOTP(@RequestBody VerifyOTPRequest request) {
         if (otpService.verifyOTP(request.getEmail(), request.getOtp(), request.getNewPassword())) {
-            return ResponseEntity.ok(successResponse(customMessageSource.get(Message.GENERATE_OTP.getCode(), module),
+            return ResponseEntity.ok(successResponse(customMessageSource.get(Message.VERIFY_OTP.getCode(), module),
                     null));
         } else {
             return ResponseEntity.ok(successResponse(customMessageSource.get(Message.NOT_GENERATE_OTP.getCode(), module),
