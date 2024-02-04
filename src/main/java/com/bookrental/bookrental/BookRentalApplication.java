@@ -19,18 +19,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @OpenAPIDefinition(
-        info = @Info(title = "BookRental OPEN API",
+        info = @Info(title = "BookRental API",
                 version = "1.0.0",
-                description = "Book Rental OPEN API documentation"
+                description = "Rest API for the Book Rental application. It is role based application where there are two " +
+                        "types of users, ADMIN, LIBRARIAN. Admin able to perform all functionality related to librarian" +
+                        "while librarian able to perform all the functionality related to book, author, category, member, transaction."
         ),
         servers = {
                 @Server(
                         url = "http://localhost:9889/book-rental/",
-                        description = "Book Rental OPEN API"
+                        description = "Book Rental API : Local ENV"
                 ),
                 @Server(
                         url = "https://bookrental-production.up.railway.app/",
-                        description = "Book Rental API : For Frontend"
+                        description = "Book Rental API : Prod ENV"
                 )
         }
         , security = @SecurityRequirement(name = "bearerAuth")
