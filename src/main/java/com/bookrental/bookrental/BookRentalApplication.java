@@ -21,9 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @OpenAPIDefinition(
         info = @Info(title = "BookRental API",
                 version = "1.0.0",
-                description = "Rest API for the Book Rental application. It is role based application where there are two " +
-                        "types of users, ADMIN, LIBRARIAN. Admin able to perform all functionality related to librarian" +
-                        "while librarian able to perform all the functionality related to book, author, category, member, transaction."
+                description = "Rest API for the Book Rental application is designed as a role-based system with two user types: ADMIN and LIBRARIAN. The ADMIN role encompasses all functionalities related to librarians," +
+                        " while the LIBRARIAN role is granted access to operations concerning books, authors, categories, members, and transactions."
         ),
         servers = {
                 @Server(
