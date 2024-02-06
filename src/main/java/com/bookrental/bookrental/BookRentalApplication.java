@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @OpenAPIDefinition(
         info = @Info(title = "BookRental API",
                 version = "1.0.0",
-                description = "Rest API for the Book Rental application is designed as a role-based system with two user types: ADMIN and LIBRARIAN. The ADMIN role encompasses all functionalities related to librarians," +
+                description = "Rest API for the Book Rental application is designed as a role-based system with two user types: ADMIN and LIBRARIAN. The ADMIN role encompasses all functionalities related to librarians, " +
                         " while the LIBRARIAN role is granted access to operations concerning books, authors, categories, members, and transactions."
         ),
         servers = {
@@ -60,7 +60,10 @@ public class BookRentalApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/**").allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("Content-Type", "Authorization")
+                        .allowCredentials(true);
             }
         };
     }
