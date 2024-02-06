@@ -60,10 +60,10 @@ public class BookRentalApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
-//                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-//                        .allowedHeaders("Content-Type", "Authorization")
-//                        .allowCredentials(true);
+                registry.addMapping("/**").allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("Content-Type", "Authorization")
+                        .allowCredentials(true);
             }
         };
     }
