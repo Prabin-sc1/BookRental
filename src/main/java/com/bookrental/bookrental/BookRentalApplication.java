@@ -55,7 +55,7 @@ public class BookRentalApplication {
         return new BCryptPasswordEncoder();
     }
 
-    /*@Bean
+  /*  @Bean
     public WebMvcConfigurer configure() {
         return new WebMvcConfigurer() {
             @Override
