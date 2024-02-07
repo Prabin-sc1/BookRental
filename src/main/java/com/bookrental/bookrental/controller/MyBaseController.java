@@ -4,7 +4,9 @@ import com.bookrental.bookrental.config.CustomMessageSource;
 import com.bookrental.bookrental.enums.ResponseStatus;
 import com.bookrental.bookrental.generic.GlobalApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = {"http://localhost:5173","https://bookrental-production.up.railway.app"},allowedHeaders = "*")
 public class MyBaseController {
 
     @Autowired

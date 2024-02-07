@@ -40,7 +40,7 @@ public class SecurityConfig {
             "/v3/api-docs"
     };
 
-    @Bean
+    /*@Bean
     public CorsConfigurationSource corsConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(
@@ -51,13 +51,13 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", corsConfiguration);
         corsConfiguration.setAllowCredentials(false);
         return source;
-    }
+    }*/
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors(c -> c.configurationSource(corsConfig()))
+//                .cors(c -> c.configurationSource(corsConfig()))
 //                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
