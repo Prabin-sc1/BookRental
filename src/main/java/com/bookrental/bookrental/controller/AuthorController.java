@@ -27,7 +27,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/author")
 @Tag(name = ModuleNameConstants.AUTHOR)
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthorController extends MyBaseController {
     private final AuthorService authorService;
 
