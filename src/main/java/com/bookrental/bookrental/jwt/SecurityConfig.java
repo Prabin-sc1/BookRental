@@ -44,7 +44,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(
-                Arrays.asList("http://localhost:5173"));
+                Arrays.asList("http://localhost:5173/"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
