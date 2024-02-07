@@ -31,6 +31,7 @@ public class OTPServiceImpl implements OTPService {
 
     @Override
     public int generateAndStore(String email) {
+        userRepository.findByEmail(email).orElseThrow(() -> new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.USER)));
         Random random = new Random();
         int otp = 100000 + random.nextInt(900000);
         LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(5000);

@@ -19,6 +19,4 @@ public interface UserMapper {
 
     @Select("select tu.id, tu.email from tbl_user tu where tu.id = #{id}")
     Optional<UserResponsePojo> getSingleUser(@Param("id") Integer id);
-
-
 }

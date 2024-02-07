@@ -26,4 +26,8 @@ public interface BookTransactionService {
 
     ByteArrayInputStream getExcelData() throws IOException;
 
+//    List<BookTransactionResponse> getTransactionsByBook(Integer bookId);
+
+    // overdeu transactions
+
 }
