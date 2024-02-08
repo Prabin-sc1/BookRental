@@ -6,6 +6,7 @@ import com.bookrental.bookrental.generic.GlobalApiResponse;
 import com.bookrental.bookrental.model.BookTransaction;
 import com.bookrental.bookrental.pojo.rent.BookRentRequest;
 import com.bookrental.bookrental.pojo.returnn.BookReturnRequest;
+import com.bookrental.bookrental.pojo.trasaction.BookTransactionOverdeuResponse;
 import com.bookrental.bookrental.pojo.trasaction.BookTransactionResponse;
 import com.bookrental.bookrental.service.booktransaction.BookTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -84,6 +85,24 @@ public class BookTransactionController extends MyBaseController {
         return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIVE_ALL.getCode(), module),
                 bookTransactionService.getAllTransaction()));
     }
+
+
+    @GetMapping("/all-overdeu-transaction")
+    @Operation(
+            summary = "Retrieve all overdeu transaction",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = {@Content
+                            (array = @ArraySchema
+                                    (schema = @Schema(implementation = BookTransactionOverdeuResponse.class)))},
+                            description = "This end point fetch all transaction"
+                    )
+            }
+    )
+    public ResponseEntity<GlobalApiResponse> getAllOverdeuTransaction() {
+        return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIVE_ALL.getCode(), module),
+                bookTransactionService.getOverdeuBookList()));
+    }
+
 
     @GetMapping("/{id}")
     @Operation(

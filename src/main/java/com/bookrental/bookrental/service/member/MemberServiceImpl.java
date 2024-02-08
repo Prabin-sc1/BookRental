@@ -72,6 +72,12 @@ public class MemberServiceImpl implements MemberService {
                 new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.MEMBER)));
     }
 
+    @Override
+    public Member findMemberByName(String name) {
+        return memberRepository.findByName(name).orElseThrow(() ->
+                new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.MEMBER)));
+    }
+
 
     public static String SHEET_NAME = "author";
 

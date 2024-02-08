@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
@@ -21,5 +22,5 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tbl_book'", nativeQuery = true)
     String[] getColumnNames();
 
-    Book findByName(String name);
+    Optional<Book> findByName(String name);
 }

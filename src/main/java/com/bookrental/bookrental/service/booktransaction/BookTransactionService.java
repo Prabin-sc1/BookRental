@@ -2,6 +2,7 @@ package com.bookrental.bookrental.service.booktransaction;
 
 import com.bookrental.bookrental.pojo.rent.BookRentRequest;
 import com.bookrental.bookrental.pojo.returnn.BookReturnRequest;
+import com.bookrental.bookrental.pojo.trasaction.BookTransactionOverdeuResponse;
 import com.bookrental.bookrental.pojo.trasaction.BookTransactionResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,5 +30,6 @@ public interface BookTransactionService {
 //    List<BookTransactionResponse> getTransactionsByBook(Integer bookId);
 
     // overdeu transactions
+    List<BookTransactionOverdeuResponse> getOverdeuBookList();
 
 }

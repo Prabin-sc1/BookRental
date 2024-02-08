@@ -16,7 +16,5 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     @Query(value = "select * from tbl_member where email = :email ", nativeQuery = true)
     Member findByEmail(@Param("email") String email);
-
-
-    Member findByName(String name);
+    Optional<Member> findByName(String name);
 }

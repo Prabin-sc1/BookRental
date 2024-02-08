@@ -13,11 +13,9 @@ import com.bookrental.bookrental.model.Category;
 import com.bookrental.bookrental.model.Member;
 import com.bookrental.bookrental.pojo.rent.BookRentRequest;
 import com.bookrental.bookrental.pojo.returnn.BookReturnRequest;
+import com.bookrental.bookrental.pojo.trasaction.BookTransactionOverdeuResponse;
 import com.bookrental.bookrental.pojo.trasaction.BookTransactionResponse;
-import com.bookrental.bookrental.repository.AuthorRepository;
-import com.bookrental.bookrental.repository.BookRepository;
-import com.bookrental.bookrental.repository.BookTransactionRepository;
-import com.bookrental.bookrental.repository.CategoryRepository;
+import com.bookrental.bookrental.repository.*;
 import com.bookrental.bookrental.service.book.BookService;
 import com.bookrental.bookrental.service.member.MemberService;
 import com.bookrental.bookrental.utils.NullAwareBeanUtilsBean;
@@ -54,9 +52,7 @@ public class BookTransactionServiceImpl implements BookTransactionService {
 
     private final CustomMessageSource customMessageSource;
 
-    private final MemberService memberService;
-
-    private final AuthorRepository authorRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public String addBookTransaction(BookRentRequest bookRentRequest) {
@@ -70,8 +66,13 @@ public class BookTransactionServiceImpl implements BookTransactionService {
             throw new AppException(e.getMessage());
         }
 
-        Book book = bookService.findBookById(bookRentRequest.getBookId());
-        Member member = memberService.findMemberById(bookRentRequest.getMemberId());
+//        Book book = bookService.findBookById(bookRentRequest.getBookId());
+        Book book = bookRepository.findByName(bookRentRequest.getBookName())
+                .orElseThrow(() -> new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.BOOK)));
+
+//        Member member = memberService.findMemberById(bookRentRequest.getMemberId());
+        Member member = memberRepository.findByName(bookRentRequest.getMemberName())
+                .orElseThrow(() -> new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.BOOK)));
 
         int overdewBooks = bookTransactionMapper.countTransactionsByMemberAndRentStatus(member.getId(), String.valueOf(RentType.RENT));
         if (overdewBooks > 0) {
@@ -107,17 +108,25 @@ public class BookTransactionServiceImpl implements BookTransactionService {
     @Override
     public void returnBookTransaction(@Valid @RequestBody BookReturnRequest bookReturnRequest) {
         BookTransaction bookTransaction = findBookTransaction(bookReturnRequest);
-        updateBookStockCount(bookReturnRequest.getBookId());
+//        updateBookStockCount(bookReturnRequest.getBookId());
+        updateBookStockCount(bookTransaction.getBook().getId());
         updateBookTransaction(bookTransaction);
     }
 
-    private BookTransaction findBookTransaction(BookReturnRequest bookReturnRequest) {
+    /*private BookTransaction findBookTransaction(BookReturnRequest bookReturnRequest) {
         return bookTransactionRepository.findByCodeAndMemberIdAndBookId(
                 bookReturnRequest.getCode(),
                 bookReturnRequest.getMemberId(),
                 bookReturnRequest.getBookId()
         ).orElseThrow(() -> new AppException(customMessageSource.get(Message.INVALID_CODE_MEMBER_BOOK.getCode(), ModuleNameConstants.TRANSACTION)));
+    }*/
+
+    private BookTransaction findBookTransaction(BookReturnRequest bookReturnRequest) {
+        return bookTransactionRepository.findTransactionByCode(bookReturnRequest.getCode())
+                .orElseThrow(() -> new AppException(customMessageSource.
+                        get(Message.INVALID_CODE_MEMBER_BOOK.getCode(), ModuleNameConstants.TRANSACTION)));
     }
+
 
     private void updateBookStockCount(Integer id) {
         Book book = bookService.findBookById(id);
@@ -178,5 +187,9 @@ public class BookTransactionServiceImpl implements BookTransactionService {
         List<BookTransactionResponse> all = bookTransactionMapper.getAll();
         ByteArrayInputStream byteArrayInputStream = Helper.dataToExcel(all, SHEET_NAME, getHeaders(BookTransactionResponse.class));
         return byteArrayInputStream;
+    }
+    @Override
+    public List<BookTransactionOverdeuResponse> getOverdeuBookList() {
+        return bookTransactionMapper.overdeuList();
     }
 }

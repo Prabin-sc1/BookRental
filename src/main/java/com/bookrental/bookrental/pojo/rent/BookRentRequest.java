@@ -8,8 +8,14 @@ import lombok.Setter;
 @Setter
 public class BookRentRequest {
     private Integer id;
-    @NotNull(message = "Book ID can't be null")
-    private Integer bookId;
-    @NotNull(message = "Member ID can't be null")
-    private Integer memberId;
+    //    @NotNull(message = "Book ID can't be null")
+//    private Integer bookId;
+//    @NotNull(message = "Member ID can't be null")
+//    private Integer memberId;
+
+    private String memberName;
+    private String bookName;
+//    private String memberName;
+
+    // af
 }

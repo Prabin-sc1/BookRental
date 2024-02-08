@@ -20,6 +20,9 @@ public interface MemberService {
 
     Member findMemberById(Integer id);
 
+    Member findMemberByName(String name);
+
+
     ByteArrayInputStream getExcelData() throws IOException;
 
     void save(MultipartFile file);
