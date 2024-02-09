@@ -15,7 +15,9 @@ import com.bookrental.bookrental.pojo.rent.BookRentRequest;
 import com.bookrental.bookrental.pojo.returnn.BookReturnRequest;
 import com.bookrental.bookrental.pojo.trasaction.BookTransactionOverdeuResponse;
 import com.bookrental.bookrental.pojo.trasaction.BookTransactionResponse;
-import com.bookrental.bookrental.repository.*;
+import com.bookrental.bookrental.repository.BookRepository;
+import com.bookrental.bookrental.repository.BookTransactionRepository;
+import com.bookrental.bookrental.repository.CategoryRepository;
 import com.bookrental.bookrental.service.book.BookService;
 import com.bookrental.bookrental.service.member.MemberService;
 import com.bookrental.bookrental.utils.NullAwareBeanUtilsBean;
@@ -39,20 +41,15 @@ import java.util.Random;
 public class BookTransactionServiceImpl implements BookTransactionService {
 
     private final BookTransactionRepository bookTransactionRepository;
-
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
-
     private final NullAwareBeanUtilsBean beanUtils = new NullAwareBeanUtilsBean();
 
     private final BookTransactionMapper bookTransactionMapper;
     private final Random r = new Random();
-
     private final BookService bookService;
-
     private final CustomMessageSource customMessageSource;
-
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Override
     public String addBookTransaction(BookRentRequest bookRentRequest) {
@@ -65,20 +62,13 @@ public class BookTransactionServiceImpl implements BookTransactionService {
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new AppException(e.getMessage());
         }
-
-//        Book book = bookService.findBookById(bookRentRequest.getBookId());
-        Book book = bookRepository.findByName(bookRentRequest.getBookName())
-                .orElseThrow(() -> new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.BOOK)));
-
-//        Member member = memberService.findMemberById(bookRentRequest.getMemberId());
-        Member member = memberRepository.findByName(bookRentRequest.getMemberName())
-                .orElseThrow(() -> new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.BOOK)));
+        Member member = memberService.findMemberByName(bookRentRequest.getMemberName());
+        Book book = bookService.findBookByName(bookRentRequest.getBookName());
 
         int overdewBooks = bookTransactionMapper.countTransactionsByMemberAndRentStatus(member.getId(), String.valueOf(RentType.RENT));
         if (overdewBooks > 0) {
             throw new AppException(customMessageSource.get(Message.ALREADY_RENT.getCode(), ModuleNameConstants.TRANSACTION));
         }
-
         bookTransaction.setFromDate(LocalDate.now());
         bookTransaction.setToDate(LocalDate.now().plusDays(10));
         bookTransaction.setRentStatus(RentType.RENT);
@@ -108,18 +98,9 @@ public class BookTransactionServiceImpl implements BookTransactionService {
     @Override
     public void returnBookTransaction(@Valid @RequestBody BookReturnRequest bookReturnRequest) {
         BookTransaction bookTransaction = findBookTransaction(bookReturnRequest);
-//        updateBookStockCount(bookReturnRequest.getBookId());
         updateBookStockCount(bookTransaction.getBook().getId());
         updateBookTransaction(bookTransaction);
     }
-
-    /*private BookTransaction findBookTransaction(BookReturnRequest bookReturnRequest) {
-        return bookTransactionRepository.findByCodeAndMemberIdAndBookId(
-                bookReturnRequest.getCode(),
-                bookReturnRequest.getMemberId(),
-                bookReturnRequest.getBookId()
-        ).orElseThrow(() -> new AppException(customMessageSource.get(Message.INVALID_CODE_MEMBER_BOOK.getCode(), ModuleNameConstants.TRANSACTION)));
-    }*/
 
     private BookTransaction findBookTransaction(BookReturnRequest bookReturnRequest) {
         return bookTransactionRepository.findTransactionByCode(bookReturnRequest.getCode())
@@ -188,8 +169,19 @@ public class BookTransactionServiceImpl implements BookTransactionService {
         ByteArrayInputStream byteArrayInputStream = Helper.dataToExcel(all, SHEET_NAME, getHeaders(BookTransactionResponse.class));
         return byteArrayInputStream;
     }
+
     @Override
     public List<BookTransactionOverdeuResponse> getOverdeuBookList() {
         return bookTransactionMapper.overdeuList();
+    }
+
+    @Override
+    public List<BookTransactionResponse> getAllTransactionRecordOfBook(Integer bookId) {
+        return bookTransactionMapper.getAllTransactionByBookId(bookId);
+    }
+
+    @Override
+    public List<BookTransactionResponse> getTransactionWithinDateRange(LocalDate a, LocalDate b, LocalDate c, LocalDate d) {
+        return bookTransactionMapper.getTransactionWithinRange(a, b,c,d);
     }
 }

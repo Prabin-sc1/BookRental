@@ -23,7 +23,7 @@ public class OverdueBookEmailScheduler {
     private final MemberService memberService;
 
 
-//    @Scheduled(cron = "0/1 * * * * *") // Run every second
+    //    @Scheduled(cron = "0/1 * * * * *") // Run every second
     public void sendOverdueEmails() {
         List<BookTransactionOverdeuResponse> list = bookTransactionMapper.overdeuList();
         for (BookTransactionOverdeuResponse bookTransaction : list) {
@@ -42,7 +42,7 @@ public class OverdueBookEmailScheduler {
         }
     }
 
-//    @Scheduled(cron = "0/1 * * * * *") // Run every second
+    //    @Scheduled(cron = "0/1 * * * * *") // Run every second
     public void sendOverdueReminderEmails() {
         List<BookTransactionOverdeuResponse> list = bookTransactionMapper.overdeuListForReminderBeforeOneDay();
         for (BookTransactionOverdeuResponse bookTransaction : list) {

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -143,6 +144,41 @@ public class BookTransactionController extends MyBaseController {
     public ResponseEntity<List<BookTransactionResponse>> getAllTransactionByMemberId(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(bookTransactionService.getAllTransactionByMember(id));
     }
+
+
+    @GetMapping("/book/{id}")
+    @Operation(
+            summary = "Get transaction by book id",
+            description = "This end point can be used for getting all transaction record of book",
+            responses = @ApiResponse(responseCode = "200",
+                    content = {
+                            @Content(schema = @Schema(implementation = BookTransactionResponse.class))
+                    }
+            )
+    )
+    public ResponseEntity<List<BookTransactionResponse>> getAllTransactionByBookId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(bookTransactionService.getAllTransactionRecordOfBook(id));
+    }
+
+    @GetMapping("/transaction/range")
+    @Operation(
+            summary = "Get list of rented transaction within specific range",
+            description = "This end point can be used for getting all transaction record within range",
+            responses = @ApiResponse(responseCode = "200",
+                    content = {
+                            @Content(schema = @Schema(implementation = BookTransactionResponse.class))
+                    }
+            )
+    )
+    public ResponseEntity<List<BookTransactionResponse>> getAllTransactionWithinRange(@RequestParam(value = "a", required = false) LocalDate a,
+                                                                                      @RequestParam(value = "b", required = false) LocalDate b,
+                                                                                      @RequestParam(value = "c", required = false) LocalDate c,
+                                                                                      @RequestParam(value = "d", required = false) LocalDate d
+
+    ) {
+        return ResponseEntity.ok(bookTransactionService.getTransactionWithinDateRange(a, b, c, d));
+    }
+
 
     @GetMapping("/download-excel-data")
     @Operation(
