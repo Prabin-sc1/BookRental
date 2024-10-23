@@ -15,4 +15,10 @@ public interface AuthorMapper {
 
     @Select(" select ta.id, ta.email, ta.mobile_number as mobileNumber, ta.\"name\"  from tbl_author ta where ta.is_active and  ta.id = #{id}")
     Optional<AuthorResponsePojo> getSingleAuthor(@Param("id") Integer id);
+
+    @Select("SELECT ta.id, ta.email, ta.mobile_number AS mobileNumber, ta.\"name\" " +
+            "FROM tbl_author ta " +
+            "WHERE ta.is_active = TRUE AND ta.email = #{email}")
+    Optional<AuthorResponsePojo> getAuthorDetailsByEmail(@Param("email") String email);
+
 }

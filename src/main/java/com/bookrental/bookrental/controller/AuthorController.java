@@ -86,6 +86,24 @@ public class AuthorController extends MyBaseController {
                 authorService.getAuthorById(id)));
     }
 
+
+    @GetMapping("/author/{email}")
+    @Operation(
+            summary = "Get author by email",
+            description = "This end point can be used for getting author by email",
+            responses = @ApiResponse(responseCode = "200",
+                    content = {
+                            @Content(schema = @Schema(implementation = AuthorResponsePojo.class))
+                    }
+            )
+    )
+    public ResponseEntity<GlobalApiResponse> getAuthorByEmail(@PathVariable String email) {
+        return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIEVE.getCode(), module),
+                authorService.getAuthorByEmail(email)));
+    }
+
+
+
     @DeleteMapping("/{id}")
     @Operation(
             summary = "Delete author",

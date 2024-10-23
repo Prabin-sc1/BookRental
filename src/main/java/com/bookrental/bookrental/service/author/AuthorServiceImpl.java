@@ -74,6 +74,12 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public AuthorResponsePojo getAuthorByEmail(String email) {
+        return authorMapper.getAuthorDetailsByEmail(email).orElseThrow( ()->new AppException(customMessageSource.
+                get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.AUTHOR)));
+    }
+
+    @Override
     public void deleteById(Integer id) {
         authorRepository.deleteById(id);
     }

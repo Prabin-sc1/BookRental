@@ -32,6 +32,7 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
 
     private static final String[] PUBLIC_URLS = {
+            "/swagger-ui/",
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-resources/**",
@@ -72,11 +73,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/member/**", "/author/**", "/book/**", "/booktransaction/**", "/category/**", "/excel/**").hasRole("LIBRARIAN")
+//                        auth.requestMatchers("/member/**", "/author/**", "/book/**", "/booktransaction/**", "/category/**", "/excel/**").hasRole("LIBRARIAN")
+                                auth.
+                                requestMatchers("/member/**", "/author/**", "/book/**", "/booktransaction/**", "/category/**",
+                                        "/excel/**").permitAll()
+                                .requestMatchers(PUBLIC_URLS).permitAll()
                                 .requestMatchers("/user/**").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/image/**").permitAll()
-                                .requestMatchers(PUBLIC_URLS).permitAll()
                                 .anyRequest().authenticated()).authenticationProvider(authenticationProvider())
                 .exceptionHandling(e -> e.authenticationEntryPoint(point))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);

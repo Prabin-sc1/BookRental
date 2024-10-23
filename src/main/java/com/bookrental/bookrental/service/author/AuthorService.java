@@ -16,6 +16,9 @@ public interface AuthorService {
 
     AuthorResponsePojo getAuthorById(Integer id);
 
+
+    AuthorResponsePojo getAuthorByEmail(String email);
+
     void deleteById(Integer id);
 
     Author findAuthorById(Integer id);

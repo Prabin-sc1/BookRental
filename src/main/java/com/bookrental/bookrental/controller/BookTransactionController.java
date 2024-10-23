@@ -55,7 +55,6 @@ public class BookTransactionController extends MyBaseController {
                 bookTransactionService.addBookTransaction(bookRentRequest)));
     }
 
-
     @PostMapping("/return")
     @Operation(
             summary = "Return Transaction",
@@ -116,7 +115,8 @@ public class BookTransactionController extends MyBaseController {
             )
     )
     public ResponseEntity<GlobalApiResponse> getSingleTransaction(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIEVE.getCode(), module), bookTransactionService.getSingleTransactionById(id)));
+        return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIEVE.getCode(), module),
+                bookTransactionService.getSingleTransactionById(id)));
     }
 
     @DeleteMapping("/{id}")
@@ -179,7 +179,6 @@ public class BookTransactionController extends MyBaseController {
         return ResponseEntity.ok(bookTransactionService.getTransactionWithinDateRange(a, b, c, d));
     }
 
-
     @GetMapping("/download-excel-data")
     @Operation(
             summary = "Retrieve all transaction in excel",
@@ -201,7 +200,6 @@ public class BookTransactionController extends MyBaseController {
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
                 .body(file);
     }
-
     /*@PostMapping("/upload")
     public ResponseEntity<GlobalApiResponse> saveTransaction(@RequestParam("file") MultipartFile multipartFile) {
         bookTransactionService.save(multipartFile);

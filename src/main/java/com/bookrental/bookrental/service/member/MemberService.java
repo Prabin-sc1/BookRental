@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
     void createMember(MemberRequestPojo member);
@@ -22,8 +23,8 @@ public interface MemberService {
 
     Member findMemberByName(String name);
 
-
     ByteArrayInputStream getExcelData() throws IOException;
 
     void save(MultipartFile file);
+
 }
