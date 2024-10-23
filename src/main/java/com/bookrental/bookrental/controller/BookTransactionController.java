@@ -6,6 +6,7 @@ import com.bookrental.bookrental.generic.GlobalApiResponse;
 import com.bookrental.bookrental.model.BookTransaction;
 import com.bookrental.bookrental.pojo.rent.BookRentRequest;
 import com.bookrental.bookrental.pojo.returnn.BookReturnRequest;
+import com.bookrental.bookrental.pojo.trasaction.BookTransactionOverdeuResponse;
 import com.bookrental.bookrental.pojo.trasaction.BookTransactionResponse;
 import com.bookrental.bookrental.service.booktransaction.BookTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -52,7 +54,6 @@ public class BookTransactionController extends MyBaseController {
         return ResponseEntity.ok(successResponse(customMessageSource.get(Message.SAVE.getCode(), module),
                 bookTransactionService.addBookTransaction(bookRentRequest)));
     }
-
 
     @PostMapping("/return")
     @Operation(
@@ -85,6 +86,24 @@ public class BookTransactionController extends MyBaseController {
                 bookTransactionService.getAllTransaction()));
     }
 
+
+    @GetMapping("/all-overdeu-transaction")
+    @Operation(
+            summary = "Retrieve all overdeu transaction",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = {@Content
+                            (array = @ArraySchema
+                                    (schema = @Schema(implementation = BookTransactionOverdeuResponse.class)))},
+                            description = "This end point fetch all transaction"
+                    )
+            }
+    )
+    public ResponseEntity<GlobalApiResponse> getAllOverdeuTransaction() {
+        return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIVE_ALL.getCode(), module),
+                bookTransactionService.getOverdeuBookList()));
+    }
+
+
     @GetMapping("/{id}")
     @Operation(
             summary = "Get transaction by id",
@@ -96,7 +115,8 @@ public class BookTransactionController extends MyBaseController {
             )
     )
     public ResponseEntity<GlobalApiResponse> getSingleTransaction(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIEVE.getCode(), module), bookTransactionService.getSingleTransactionById(id)));
+        return ResponseEntity.ok(successResponse(customMessageSource.get(Message.RETRIEVE.getCode(), module),
+                bookTransactionService.getSingleTransactionById(id)));
     }
 
     @DeleteMapping("/{id}")
@@ -125,6 +145,40 @@ public class BookTransactionController extends MyBaseController {
         return ResponseEntity.ok(bookTransactionService.getAllTransactionByMember(id));
     }
 
+
+    @GetMapping("/book/{id}")
+    @Operation(
+            summary = "Get transaction by book id",
+            description = "This end point can be used for getting all transaction record of book",
+            responses = @ApiResponse(responseCode = "200",
+                    content = {
+                            @Content(schema = @Schema(implementation = BookTransactionResponse.class))
+                    }
+            )
+    )
+    public ResponseEntity<List<BookTransactionResponse>> getAllTransactionByBookId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(bookTransactionService.getAllTransactionRecordOfBook(id));
+    }
+
+    @GetMapping("/transaction/range")
+    @Operation(
+            summary = "Get list of rented transaction within specific range",
+            description = "This end point can be used for getting all transaction record within range",
+            responses = @ApiResponse(responseCode = "200",
+                    content = {
+                            @Content(schema = @Schema(implementation = BookTransactionResponse.class))
+                    }
+            )
+    )
+    public ResponseEntity<List<BookTransactionResponse>> getAllTransactionWithinRange(@RequestParam(value = "a", required = false) LocalDate a,
+                                                                                      @RequestParam(value = "b", required = false) LocalDate b,
+                                                                                      @RequestParam(value = "c", required = false) LocalDate c,
+                                                                                      @RequestParam(value = "d", required = false) LocalDate d
+
+    ) {
+        return ResponseEntity.ok(bookTransactionService.getTransactionWithinDateRange(a, b, c, d));
+    }
+
     @GetMapping("/download-excel-data")
     @Operation(
             summary = "Retrieve all transaction in excel",
@@ -146,7 +200,6 @@ public class BookTransactionController extends MyBaseController {
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
                 .body(file);
     }
-
     /*@PostMapping("/upload")
     public ResponseEntity<GlobalApiResponse> saveTransaction(@RequestParam("file") MultipartFile multipartFile) {
         bookTransactionService.save(multipartFile);

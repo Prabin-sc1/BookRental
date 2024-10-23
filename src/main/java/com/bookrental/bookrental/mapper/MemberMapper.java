@@ -15,4 +15,5 @@ public interface MemberMapper {
 
     @Select("select tm.id, tm.\"name\",tm.email , tm.address, tm.mobile_number as mobileNumber from tbl_member tm where tm.is_active and tm.id = #{id}")
     Optional<MemberResponsePojo> getSingleMember(@Param("id") Integer id);
+
 }

@@ -14,8 +14,9 @@ public class BookReturnRequest {
     private Integer id;
     @NotNull
     private String code;
+    /*
     @NotNull
     private Integer memberId;
     @NotNull
-    private Integer bookId;
+    private Integer bookId;*/
 }

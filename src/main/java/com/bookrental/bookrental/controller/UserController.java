@@ -44,7 +44,7 @@ public class UserController extends MyBaseController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     @Operation(summary = "Create and update user",
             description = "This end point is used to create and update user",
             responses = @ApiResponse(

@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -108,6 +109,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book findBookById(Integer id) {
         return bookRepository.findById(id).orElseThrow(() ->
+                new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.BOOK)));
+    }
+
+    @Override
+    public Book findBookByName(String name) {
+        return bookRepository.findByName(name).orElseThrow(() ->
                 new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.BOOK)));
     }
 

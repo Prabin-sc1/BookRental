@@ -17,7 +17,7 @@ spring:
     open-in-view: false
 
 server:
-  port: 9889
+  port: 8848
   servlet:
     context-path: /book-rental
 

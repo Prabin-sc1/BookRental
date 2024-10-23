@@ -12,6 +12,7 @@ import com.bookrental.bookrental.pojo.member.MemberRequestPojo;
 import com.bookrental.bookrental.pojo.member.MemberResponsePojo;
 import com.bookrental.bookrental.repository.MemberRepository;
 import com.bookrental.bookrental.utils.NullAwareBeanUtilsBean;
+import com.bookrental.bookrental.utils.QRCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +47,7 @@ public class MemberServiceImpl implements MemberService {
         member.setEmail(memberRequestPojo.getEmail().toLowerCase());
         try {
             memberRepository.save(member);
+            QRCodeGenerator.generateQRCode(member);
         } catch (Exception e) {
             throw new AppException(customMessageSource.get(Message.ALREADY_EXISTS.getCode(), ModuleNameConstants.MEMBER));
         }
@@ -69,6 +72,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findMemberById(Integer id) {
         return memberRepository.findById(id).orElseThrow(() ->
+                new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.MEMBER)));
+    }
+
+    @Override
+    public Member findMemberByName(String name) {
+        return memberRepository.findByName(name).orElseThrow(() ->
                 new AppException(customMessageSource.get(Message.ID_NOT_FOUND.getCode(), ModuleNameConstants.MEMBER)));
     }
 
@@ -99,4 +108,6 @@ public class MemberServiceImpl implements MemberService {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -26,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         ),
         servers = {
                 @Server(
-                        url = "http://localhost:9889/book-rental/",
+                        url = "http://localhost:8848/book-rental/",
                         description = "Book Rental API : Local ENV"
                 ),
                 @Server(

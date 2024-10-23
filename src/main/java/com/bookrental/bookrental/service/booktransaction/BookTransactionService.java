@@ -2,11 +2,13 @@ package com.bookrental.bookrental.service.booktransaction;
 
 import com.bookrental.bookrental.pojo.rent.BookRentRequest;
 import com.bookrental.bookrental.pojo.returnn.BookReturnRequest;
+import com.bookrental.bookrental.pojo.trasaction.BookTransactionOverdeuResponse;
 import com.bookrental.bookrental.pojo.trasaction.BookTransactionResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BookTransactionService {
@@ -26,8 +28,11 @@ public interface BookTransactionService {
 
     ByteArrayInputStream getExcelData() throws IOException;
 
-//    List<BookTransactionResponse> getTransactionsByBook(Integer bookId);
-
     // overdeu transactions
+    List<BookTransactionOverdeuResponse> getOverdeuBookList();
 
+    List<BookTransactionResponse> getAllTransactionRecordOfBook(Integer bookId);
+
+    // transaction range with fromDate to toDate
+    List<BookTransactionResponse> getTransactionWithinDateRange(LocalDate a, LocalDate b, LocalDate c, LocalDate d);
 }
